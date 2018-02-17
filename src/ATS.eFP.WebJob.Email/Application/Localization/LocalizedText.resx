@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AssetId" xml:space="preserve">
+    <value>Asset Id:</value>
+  </data>
+  <data name="AssetNum" xml:space="preserve">
+    <value>Asset #:</value>
+  </data>
+  <data name="AssignedTech" xml:space="preserve">
+    <value>Assigned Technician:</value>
+  </data>
+  <data name="BldgLocation" xml:space="preserve">
+    <value>Bldg Location:</value>
+  </data>
+  <data name="DescriptionIssue" xml:space="preserve">
+    <value>Description of Issue:</value>
+  </data>
+  <data name="EquipDescr" xml:space="preserve">
+    <value>EquipDescr:</value>
+  </data>
+  <data name="EquipmentCriticality" xml:space="preserve">
+    <value>Equipment Criticality:</value>
+  </data>
+  <data name="AssetDescription" xml:space="preserve">
+    <value>Asset Description:</value>
+  </data>
+  <data name="EquipmentId" xml:space="preserve">
+    <value>Equipment ID:</value>
+  </data>
+  <data name="EquipmentSublocation" xml:space="preserve">
+    <value>Sub-location:</value>
+  </data>
+  <data name="EscalatedAt" xml:space="preserve">
+    <value>Escalated At:</value>
+  </data>
+  <data name="EscalationOpen" xml:space="preserve">
+    <value>Escalation Notification</value>
+  </data>
+  <data name="EscalationCompleted" xml:space="preserve">
+    <value>Escalation Notification - Work Order is Completed</value>
+  </data>
+  <data name="EventMonitorDescription" xml:space="preserve">
+    <value>Event Monitor Description:</value>
+  </data>
+  <data name="EventMonitorInformation" xml:space="preserve">
+    <value>Event Monitor Information</value>
+  </data>
+  <data name="EventMonitorName" xml:space="preserve">
+    <value>Event Monitor Name:</value>
+  </data>
+  <data name="MalfunctionStop" xml:space="preserve">
+    <value>Malfunction Stop:</value>
+  </data>
+  <data name="MalfunctionStart" xml:space="preserve">
+    <value>Malfunction Start:</value>
+  </data>
+  <data name="NA" xml:space="preserve">
+    <value>NA</value>
+  </data>
+  <data name="NoEquip" xml:space="preserve">
+    <value>No equip on WO, only Sublocation</value>
+  </data>
+  <data name="NoRepairRemarks" xml:space="preserve">
+    <value>No repair remarks</value>
+  </data>
+  <data name="OperationalStatus" xml:space="preserve">
+    <value>Operational Status:</value>
+  </data>
+  <data name="OpStatus" xml:space="preserve">
+    <value>OpStatus:</value>
+  </data>
+  <data name="Site" xml:space="preserve">
+    <value>Site:</value>
+  </data>
+  <data name="SubjectCreated" xml:space="preserve">
+    <value>Work Order {0} Created</value>
+  </data>
+  <data name="Subloc" xml:space="preserve">
+    <value>Subloc:</value>
+  </data>
+  <data name="Sublocation" xml:space="preserve">
+    <value>Sublocation:</value>
+  </data>
+  <data name="TaskTemplate" xml:space="preserve">
+    <value>Task Template:</value>
+  </data>
+  <data name="TechnicianRemarks" xml:space="preserve">
+    <value>Technician Remarks:</value>
+  </data>
+  <data name="WO" xml:space="preserve">
+    <value>WO#:</value>
+  </data>
+  <data name="WorkOrdedrPriority" xml:space="preserve">
+    <value>Work Order Priority:</value>
+  </data>
+  <data name="WorkOrderCreated" xml:space="preserve">
+    <value>Your work order {0}, has been created.</value>
+  </data>
+  <data name="WorkOrderDateTime" xml:space="preserve">
+    <value>Work Order Date/Time:</value>
+  </data>
+  <data name="WorkOrderDescription" xml:space="preserve">
+    <value>Work Order Description:</value>
+  </data>
+  <data name="WorkOrderNumber" xml:space="preserve">
+    <value>Work Order Number:</value>
+  </data>
+  <data name="WorkOrderStatus" xml:space="preserve">
+    <value>Work Order Status:</value>
+  </data>
+  <data name="WorkOrderType" xml:space="preserve">
+    <value>Work Order Type:</value>
+  </data>
+  <data name="WorkorderFooter" xml:space="preserve">
+    <value>If you have an account, you may view this Work Order in:</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notes:</value>
+  </data>
+  <data name="SubjectCompleted" xml:space="preserve">
+    <value>Work Order {0} Completed</value>
+  </data>
+  <data name="WorkOrderCompleted" xml:space="preserve">
+    <value>Your work order {0}, has been completed.</value>
+  </data>
+  <data name="CentralTime" xml:space="preserve">
+    <value>Central Standard Time</value>
+  </data>
+  <data name="EasternTime" xml:space="preserve">
+    <value>Eastern Standard Time</value>
+  </data>
+  <data name="PacificTime" xml:space="preserve">
+    <value>Pacific Standard Time</value>
+  </data>
+  <data name="MountainTime" xml:space="preserve">
+    <value>Mountain Standard Time</value>
+  </data>
+  <data name="BldgLoc" xml:space="preserve">
+    <value>BldgLoc:</value>
+  </data>
+  <data name="EquipCrit" xml:space="preserve">
+    <value>EquipCrit:</value>
+  </data>
+</root>
