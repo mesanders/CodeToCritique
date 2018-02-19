@@ -205,7 +205,7 @@
     <value>Observaciones del Técnico:</value>
   </data>
   <data name="WO" xml:space="preserve">
-    <value># de OT:</value>
+    <value># OT:</value>
   </data>
   <data name="WorkOrdedrPriority" xml:space="preserve">
     <value>Prioridad de Orden de Trabajo:</value>
@@ -251,5 +251,11 @@
   </data>
   <data name="MountainTime" xml:space="preserve">
     <value>Horario Estandard de la Montaña</value>
+  </data>
+  <data name="BldgLoc" xml:space="preserve">
+    <value>BldgLoc</value>
+  </data>
+  <data name="EquipCrit" xml:space="preserve">
+    <value>EquipCrit</value>
   </data>
 </root>

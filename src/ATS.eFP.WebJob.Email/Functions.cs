@@ -171,7 +171,6 @@ namespace ATS.eFP.WebJob.Email
                 Workorder deserializedWorkorder = parsedJObject["Entity"]["Workorder"].ToObject<Workorder>();
                 Product product = parsedJObject["Entity"]["Product"].ToObject<Product>();
                 EventMonitor eventMonitor = parsedJObject["Entity"]["EventMonitor"].ToObject<EventMonitor>();
-                bool closed = parsedJObject["Entity"]["Closed"].ToObject<bool>();
 
                 var workorder = await _apiService.WorkorderData(deserializedWorkorder.Id);
                 TimeZones timezoneId = await _apiService.TimeZoneData(workorder.Site.TimeZone);
@@ -184,8 +183,8 @@ namespace ATS.eFP.WebJob.Email
                     _mailService.CreateTwilioClient();
 
                     var body = sublocation
-                        ? _mailService.SmsSublocation(workorder, product, closed)
-                        : _mailService.SmsEquipment(workorder, product, closed);
+                        ? _mailService.SmsSublocation(workorder, product)
+                        : _mailService.SmsEquipment(workorder, product);
 
                     var result = await MessageResource.CreateAsync(new PhoneNumber(recepient),
                         from: new PhoneNumber("+13094200014"),
@@ -196,7 +195,7 @@ namespace ATS.eFP.WebJob.Email
                 else
                 {
                     var templateKey = sublocation ? "TemplateEscalationSublocation" : "TemplateEscalationEquipment";
-                    MailMessage mail = _mailService.EscalationMail(workorder, product, eventMonitor, timezoneId, recepient, closed, templateKey);
+                    MailMessage mail = _mailService.EscalationMail(workorder, product, eventMonitor, timezoneId, recepient, templateKey);
                     _mailService.SmtpClient.SendAsync(mail, null);
                     LogData(trace, $"Sent mail to {recepient} for workorder: {workorder.Id} for escalation: {eventMonitor.Name}", false);
                 }

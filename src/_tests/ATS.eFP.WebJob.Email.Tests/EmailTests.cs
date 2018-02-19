@@ -149,7 +149,7 @@ namespace ATS.eFP.WebJob.Email.Tests
                 InfoId = "Eastern Standard Time"
             };
 
-            var mail = _mailService.EscalationMail(_workorder, _equipment, _eventMonitor, timezone, "jboundy@advancedtech.com", false, "TemplateEscalationEquipment");
+            var mail = _mailService.EscalationMail(_workorder, _equipment, _eventMonitor, timezone, "jboundy@advancedtech.com", "TemplateEscalationEquipment");
             _mailService.SmtpClient.Send(mail);
         }
 
@@ -161,7 +161,7 @@ namespace ATS.eFP.WebJob.Email.Tests
                 InfoId = "Eastern Standard Time"
             };
 
-            var mail = _mailService.EscalationMail(_workorder, _sublocation, _eventMonitor, timezone, "jboundy@advancedtech.com", false, "TemplateEscalationSublocation");
+            var mail = _mailService.EscalationMail(_workorder, _sublocation, _eventMonitor, timezone, "jboundy@advancedtech.com", "TemplateEscalationSublocation");
             _mailService.SmtpClient.Send(mail);
         }
 
@@ -169,7 +169,7 @@ namespace ATS.eFP.WebJob.Email.Tests
         public void SendEsclationEquipmentSMSTemplate()
         {
             TwilioClient.Init("AC1091607564f3e4cbef1215b9873768ef", "1ef98c704d0a1d8fd96e073dd486f938");
-            var mail = _mailService.SmsEquipment(_workorder, _equipment, false);
+            var mail = _mailService.SmsEquipment(_workorder, _equipment);
             var result = MessageResource.Create(new PhoneNumber("+13092026577"),
                 from: new PhoneNumber("+13094200014"),
                 body: mail);

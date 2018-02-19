@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Reflection;
+using System.Text;
 using ATS.eFP.Entities.Common;
 using ATS.eFP.Entities.Product;
 using ATS.eFP.Entities.Workorder;
@@ -11,6 +12,7 @@ using ATS.eFP.WebJob.Email.Application;
 using ATS.eFP.WebJob.Email.Application.Configuration;
 using ATS.eFP.WebJob.Email.Application.Localization;
 using ATS.eFP.WebJob.Email.Application.Models;
+using IvanAkcheurov.Commons;
 using Twilio;
 
 namespace ATS.eFP.WebJob.Email.Services
@@ -46,29 +48,29 @@ namespace ATS.eFP.WebJob.Email.Services
             };
         }
 
-        public string SmsSublocation(Workorder workorder, Product product, bool closed)
+        public string SmsSublocation(Workorder workorder, Product product)
         {
-            var message = $"{DetermineCompletedEmail(closed)}" +
-                  $"{LocalizedText.WO}{workorder.Id}@{LocalizedText.Site}{workorder.Site.Name};" +
-                  $"{LocalizedText.Subloc}{product.Id ?? LocalizedText.NA };" +
-                  $"{LocalizedText.BldgLoc}{product.BuildingLocation ?? LocalizedText.NA};" +
-                  $"{LocalizedText.EquipDescr}{product.Description ?? LocalizedText.NA};" +
-                  $"{LocalizedText.EquipCrit}{product.CriticalityId};" +
+            var message = $"{DetermineEscalationCompleted(workorder)}-" +
+                  $"{LocalizedText.WO}{workorder.Id}@{LocalizedText.Site}{workorder.Site.Name}-" +
+                  $"{LocalizedText.Subloc}{product.Id ?? LocalizedText.NA }-" +
+                  $"{LocalizedText.BldgLoc}{product.BuildingLocation ?? LocalizedText.NA}-" +
+                  $"{LocalizedText.EquipDescr}{product.Description ?? LocalizedText.NA}-"+
+                  $"{LocalizedText.EquipCrit}{product.CriticalityId}-" +
                   $"{LocalizedText.Notes}{GroupNotes(workorder)}";
 
             return TruncateMessage(message);
         }
 
-        public string SmsEquipment(Workorder workorder, Product product, bool closed)
+        public string SmsEquipment(Workorder workorder, Product product)
         {
-            var message = $"{DetermineCompletedEmail(closed)}" +
-                  $"{LocalizedText.WO}{workorder.Id}@{LocalizedText.Site}{workorder.Site.Name};" +
-                  $"{LocalizedText.AssetId}{product.AssetId};" +
-                  $"{LocalizedText.Subloc}{product.Id ?? LocalizedText.NA };" +
-                  $"{LocalizedText.BldgLoc}{product.BuildingLocation ?? LocalizedText.NA};" +
-                  $"{LocalizedText.EquipDescr}{product.Description ?? LocalizedText.NA};" +
-                  $"{LocalizedText.OpStatus}{product.OperatingStatusId ?? LocalizedText.NA};" +
-                  $"{LocalizedText.EquipCrit}{product.CriticalityId};" +
+            var message = $"{DetermineEscalationCompleted(workorder)}-" +
+                  $"{LocalizedText.WO}{workorder.Id}@{LocalizedText.Site}{workorder.Site.Name}-" +
+                  $"{LocalizedText.AssetId}{product.AssetId}-" +
+                  $"{LocalizedText.Subloc}{product.Id ?? LocalizedText.NA }-" +
+                  $"{LocalizedText.BldgLoc}{product.BuildingLocation ?? LocalizedText.NA}-" +
+                  $"{LocalizedText.EquipDescr}{product.Description ?? LocalizedText.NA}-" +
+                  $"{LocalizedText.OpStatus}{product.OperatingStatusId ?? LocalizedText.NA}-" +
+                  $"{LocalizedText.EquipCrit}{product.CriticalityId}-" +
                   $"{LocalizedText.Notes}{GroupNotes(workorder)}";
 
             return TruncateMessage(message);
@@ -112,7 +114,7 @@ namespace ATS.eFP.WebJob.Email.Services
 
             return ConstrutMail(wrapper, recipient, wrapper.Subject, templateKey);
         }
-        public MailMessage EscalationMail(Workorder workorder, Product product, EventMonitor eventMonitor, TimeZones timeZoneId, string receipient, bool closed, string templateKey)
+        public MailMessage EscalationMail(Workorder workorder, Product product, EventMonitor eventMonitor, TimeZones timeZoneId, string receipient, string templateKey)
         {
             var wrapper = new EscalationWrapper
             {
@@ -123,7 +125,7 @@ namespace ATS.eFP.WebJob.Email.Services
                 EscalatedAt = LocalTimeFormat(timeZoneId, DateTime.Now.ToUniversalTime()),
                 AssignedTech = workorder.Tasks?.FirstOrDefault()?.AssignedPerson?.FullName,
                 TaskTemplateId = workorder.Tasks?.FirstOrDefault()?.TaskTemplateId,
-                Subject = DetermineCompletedEmail(closed),
+                Subject = $"{product.AssetId} @ {product.Site.Name} {DetermineEscalationCompleted(workorder)}",
                 SubjectSub = product.Group?.Name == "SUBLOCATION" ? LocalizedText.NoEquip : $"{product.Id} @ {workorder.Site.Name}",
                 FooterButton = Settings.EmailConfig.FooterButton,
                 HeaderHeadset = Settings.EmailConfig.HeaderHeadset,
@@ -159,7 +161,45 @@ namespace ATS.eFP.WebJob.Email.Services
 
         private string TruncateMessage(string message)
         {
-            return message.Length <= 160 ? message : message.Substring(0, 160);
+            var compiledString = new StringBuilder();
+            if (message.Length <= 160)
+            {
+                return message;
+            }
+
+            var split = message.Split('-');
+            foreach (var item in split)
+            {
+                if (compiledString.Length <= 160)
+                {
+                    compiledString.Append(item);
+                    compiledString.Append('-');
+                }
+                else
+                {
+                    var newStringBuilder = new StringBuilder();
+                    var overloadSplit = compiledString.ToString().Split('-');
+                    var stringCollection = string.IsNullOrWhiteSpace(overloadSplit.LastOrDefault()) ? 
+                        overloadSplit.Take(overloadSplit.Count() - 2).ToStrings() : overloadSplit.Take(overloadSplit.Count() - 1).ToStrings();
+
+                    foreach (var obj in stringCollection)
+                    {
+                        if (obj != stringCollection.LastOrDefault())
+                        {
+                            newStringBuilder.Append(obj);
+                            newStringBuilder.Append('-');
+                        }
+                        else
+                        {
+                            newStringBuilder.Append(obj);
+                        }
+
+                    }
+                    return newStringBuilder.ToString();
+
+                }
+            }
+            return "";
         }
 
         private string GroupNotes(Workorder workorder)
@@ -197,12 +237,18 @@ namespace ATS.eFP.WebJob.Email.Services
                 case "Pacific Standard Time":
                     workorderTimeZone.InfoId = LocalizedText.PacificTime;
                     break;
+
+                case "Mountain Standard Time":
+                    workorderTimeZone.InfoId = LocalizedText.MountainTime;
+                    break;
             }
 
             return $"{userTime} {workorderTimeZone.InfoId}";
         }
 
-        private string DetermineCompletedEmail(bool completed) => completed ? LocalizedText.EscalationCompleted : LocalizedText.EscalationOpen;
+        private string DetermineEscalationCompleted(Workorder workorder) => 
+            workorder.Status == "COMPLETE" ? LocalizedText.EscalationCompleted : LocalizedText.EscalationOpen;
+        
 
         private void SanitizeObject(object root)
         {
