@@ -10,7 +10,7 @@ namespace ATS.eFP.WebJob.Email.Application
 
         public static void Initialize()
         {
-            var file = new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Application\Configuration\Core14.profile.xml"));
+            var file = new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Application\Configuration\Core14.profile.xml"));
             using (var readStream = File.Open(file.FullName, FileMode.Open))
             {
                 var factory = new RankedLanguageIdentifierFactory();
