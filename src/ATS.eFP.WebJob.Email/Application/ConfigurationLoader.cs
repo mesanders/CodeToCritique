@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using NTextCat;
 
 namespace ATS.eFP.WebJob.Email.Application
@@ -10,7 +9,7 @@ namespace ATS.eFP.WebJob.Email.Application
 
         public static void Initialize()
         {
-            var file = new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Application\Configuration\Core14.profile.xml"));
+            var file = new FileInfo(@".\Application\Configuration\Core14.profile.xml");
             using (var readStream = File.Open(file.FullName, FileMode.Open))
             {
                 var factory = new RankedLanguageIdentifierFactory();
