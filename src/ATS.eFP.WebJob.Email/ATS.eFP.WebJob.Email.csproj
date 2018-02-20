@@ -201,6 +201,7 @@
     <Compile Include="Application\Models\EventMonitor.cs" />
     <Compile Include="Application\Models\MessageData.cs" />
     <Compile Include="Application\Models\WorkorderNotificationWrapper.cs" />
+    <Compile Include="Application\NewRelicConfiguration.cs" />
     <Compile Include="Application\Settings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Functions.cs" />
