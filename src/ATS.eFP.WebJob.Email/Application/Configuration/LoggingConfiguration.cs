@@ -4,11 +4,11 @@ namespace ATS.eFP.WebJob.Email.Application.Configuration
 {
     public class LoggingConfiguration : ConfigurationSection
     {
-        [ConfigurationProperty("LogentriesKey", IsRequired = true)]
+        [ConfigurationProperty("LogEntriesKey", IsRequired = true)]
         public string LogentriesKey
         {
-            get { return this["LogentriesKey"].ToString(); }
-            set { this["LogentriesKey"] = value; }
+            get { return this["LogEntriesKey"].ToString(); }
+            set { this["LogEntriesKey"] = value; }
         }
     }
 }

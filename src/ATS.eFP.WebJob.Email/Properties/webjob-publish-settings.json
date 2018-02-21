@@ -1,5 +1,9 @@
 ﻿{
   "$schema": "http://schemastore.org/schemas/json/webjob-publish-settings.json",
   "webJobName": "Email",
-  "runMode": "Continuous"
+  "runMode": "Continuous",
+  "startTime": "null",
+  "endTime": "null",
+  "jobRecurrenceFrequency": "null",
+  "interval": null
 }

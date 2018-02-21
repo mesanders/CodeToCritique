@@ -15,6 +15,7 @@ namespace ATS.eFP.WebJob.Email
         static void Main()
         {
             Settings.Initialize();
+            NewRelicConfiguration.Initialize();
 
             var levelSwitch = new LoggingLevelSwitch();
             var logger = new LoggerConfiguration().MinimumLevel.ControlledBy(levelSwitch).WriteTo.Logentries(Settings.LoggingConfig.LogentriesKey).CreateLogger();
