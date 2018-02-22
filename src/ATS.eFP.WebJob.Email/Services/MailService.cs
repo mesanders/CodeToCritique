@@ -172,31 +172,19 @@ namespace ATS.eFP.WebJob.Email.Services
             {
                 if (compiledString.Length <= 160)
                 {
-                    compiledString.Append(item);
-                    compiledString.Append('-');
+                    if (split.LastOrDefault() != item)
+                    {
+                        compiledString.Append(item);
+                        compiledString.Append('-');
+                    }
+                    else
+                    {
+                        compiledString.Append(item);
+                    }                   
                 }
                 else
                 {
-                    var newStringBuilder = new StringBuilder();
-                    var overloadSplit = compiledString.ToString().Split('-');
-                    var stringCollection = string.IsNullOrWhiteSpace(overloadSplit.LastOrDefault()) ? 
-                        overloadSplit.Take(overloadSplit.Count() - 2).ToStrings() : overloadSplit.Take(overloadSplit.Count() - 1).ToStrings();
-
-                    foreach (var obj in stringCollection)
-                    {
-                        if (obj != stringCollection.LastOrDefault())
-                        {
-                            newStringBuilder.Append(obj);
-                            newStringBuilder.Append('-');
-                        }
-                        else
-                        {
-                            newStringBuilder.Append(obj);
-                        }
-
-                    }
-                    return newStringBuilder.ToString();
-
+                    TruncateMessage(compiledString.ToString());
                 }
             }
             return "";
