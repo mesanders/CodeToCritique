@@ -89,7 +89,6 @@ namespace ATS.eFP.WebJob.Email
             LogData(trace, "Workorder Create Sending Finished", false);
         }
 
-        [Transaction(Web = true)]
         public async Task OnWorkOrderUpdate([ServiceBusTrigger("efp-api-update_workorder-topic", "efp-api-woupdate-sub-send-email")]BrokeredMessage message,
            TraceWriter trace)
         {
@@ -158,7 +157,6 @@ namespace ATS.eFP.WebJob.Email
             LogData(trace, "Workorder Complete Sending Finished", false);
         }
 
-        [Transaction(Web = true)]
         public async Task OnControlCenterEscalation([ServiceBusTrigger("efp-api-escalation-topic", "efp-api-escalation-sub-send-notification")] BrokeredMessage message,
             TraceWriter trace)
         {
@@ -169,11 +167,12 @@ namespace ATS.eFP.WebJob.Email
                 var parsedJObject = JObject.Parse(deserializedObject);
                 string recepient = parsedJObject["Entity"]["To"].ToObject<string>();
                 Workorder deserializedWorkorder = parsedJObject["Entity"]["Workorder"].ToObject<Workorder>();
-                Product product = parsedJObject["Entity"]["Product"].ToObject<Product>();
+                Product parsedProduct = parsedJObject["Entity"]["Product"].ToObject<Product>();
                 EventMonitor eventMonitor = parsedJObject["Entity"]["EventMonitor"].ToObject<EventMonitor>();
 
                 var workorder = await _apiService.WorkorderData(deserializedWorkorder.Id);
                 TimeZones timezoneId = await _apiService.TimeZoneData(workorder.Site.TimeZone);
+                Product product = await _apiService.ProductData(parsedProduct.Id);
                 _cultureService.SetCulture(workorder.CustomerProblemDescription, workorder.Site.LocaleCode.ToLower());
 
                 bool sublocation = product.Group.Name == "SUBLOCATION";

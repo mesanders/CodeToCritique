@@ -56,7 +56,7 @@ namespace ATS.eFP.WebJob.Email.Services
                   $"{LocalizedText.BldgLoc}{product.BuildingLocation ?? LocalizedText.NA}-" +
                   $"{LocalizedText.EquipDescr}{product.Description ?? LocalizedText.NA}-"+
                   $"{LocalizedText.EquipCrit}{product.CriticalityId}-" +
-                  $"{LocalizedText.Notes}{GroupNotes(workorder)}";
+                  $"{LocalizedText.Notes}{GroupNotes(workorder) ?? LocalizedText.NA}";
 
             return TruncateMessage(message);
         }
@@ -71,7 +71,7 @@ namespace ATS.eFP.WebJob.Email.Services
                   $"{LocalizedText.EquipDescr}{product.Description ?? LocalizedText.NA}-" +
                   $"{LocalizedText.OpStatus}{product.OperatingStatusId ?? LocalizedText.NA}-" +
                   $"{LocalizedText.EquipCrit}{product.CriticalityId}-" +
-                  $"{LocalizedText.Notes}{GroupNotes(workorder)}";
+                  $"{LocalizedText.Notes}{GroupNotes(workorder) ?? LocalizedText.NA}";
 
             return TruncateMessage(message);
         }
@@ -125,7 +125,8 @@ namespace ATS.eFP.WebJob.Email.Services
                 EscalatedAt = LocalTimeFormat(timeZoneId, DateTime.Now.ToUniversalTime()),
                 AssignedTech = workorder.Tasks?.FirstOrDefault()?.AssignedPerson?.FullName,
                 TaskTemplateId = workorder.Tasks?.FirstOrDefault()?.TaskTemplateId,
-                Subject = $"{product.AssetId} @ {product.Site.Name} {DetermineEscalationCompleted(workorder)}",
+                Subject = $"{product.AssetId} @ {product.Site?.Name} {DetermineEscalationCompleted(workorder)}",
+                SubjectHeader = DetermineEscalationCompleted(workorder),
                 SubjectSub = product.Group?.Name == "SUBLOCATION" ? LocalizedText.NoEquip : $"{product.Id} @ {workorder.Site.Name}",
                 FooterButton = Settings.EmailConfig.FooterButton,
                 HeaderHeadset = Settings.EmailConfig.HeaderHeadset,

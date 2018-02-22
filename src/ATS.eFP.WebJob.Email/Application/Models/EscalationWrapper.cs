@@ -9,5 +9,6 @@
         public string MalfunctionStart { get; set; }
         public string MalfunctionStop { get; set; }
         public string TaskTemplateId { get; set; }
+        public string SubjectHeader { get; set; }
     }
 }

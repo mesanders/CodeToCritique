@@ -15,6 +15,7 @@ namespace ATS.eFP.WebJob.Email.Services
                 .Filter(x => x.Id == productId)
                 .Expand(x => x.Sublocation)
                 .Expand(x => x.Group)
+                .Expand(x => x.Site)
                 .FindEntryAsync();
         }
 

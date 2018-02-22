@@ -163,7 +163,7 @@
     <value>Event Monitor Information</value>
   </data>
   <data name="EventMonitorName" xml:space="preserve">
-    <value>Event Monitor Name:</value>
+    <value>Event Monitor Name</value>
   </data>
   <data name="MalfunctionStop" xml:space="preserve">
     <value>Malfunction Stop:</value>

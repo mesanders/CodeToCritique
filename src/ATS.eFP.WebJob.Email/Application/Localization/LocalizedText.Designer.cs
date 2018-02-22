@@ -232,7 +232,7 @@ namespace ATS.eFP.WebJob.Email.Application.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Event Monitor Name:.
+        ///   Looks up a localized string similar to Event Monitor Name.
         /// </summary>
         public static string EventMonitorName {
             get {
