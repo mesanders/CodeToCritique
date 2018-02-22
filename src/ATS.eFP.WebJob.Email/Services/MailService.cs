@@ -169,11 +169,13 @@ namespace ATS.eFP.WebJob.Email.Services
             }
 
             var split = message.Split('-');
-            foreach (var item in split)
+            var stringCollection = string.IsNullOrWhiteSpace(split.LastOrDefault()) ?
+                split.Take(split.Count() - 2).ToStrings() : split.Take(split.Count() - 1).ToStrings();
+            foreach (var item in stringCollection)
             {
                 if (compiledString.Length <= 160)
                 {
-                    if (split.LastOrDefault() != item)
+                    if (stringCollection.LastOrDefault() != item)
                     {
                         compiledString.Append(item);
                         compiledString.Append('-');
@@ -183,12 +185,9 @@ namespace ATS.eFP.WebJob.Email.Services
                         compiledString.Append(item);
                     }                   
                 }
-                else
-                {
-                    TruncateMessage(compiledString.ToString());
-                }
             }
-            return "";
+
+            return TruncateMessage(compiledString.ToString());
         }
 
         private string GroupNotes(Workorder workorder)

@@ -428,7 +428,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Application\Localization\LocalizedText.es-MX.resx" />
+    <EmbeddedResource Include="Application\Localization\LocalizedText.es-MX.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Application\Localization\LocalizedText.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LocalizedText.Designer.cs</LastGenOutput>
