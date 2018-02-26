@@ -258,4 +258,46 @@
   <data name="EquipCrit" xml:space="preserve">
     <value>EquipCrit</value>
   </data>
+  <data name="EquipStatusDecom" xml:space="preserve">
+    <value>Dado de baja</value>
+  </data>
+  <data name="EquipStatusDown" xml:space="preserve">
+    <value>Caído</value>
+  </data>
+  <data name="EquipStatusIdle" xml:space="preserve">
+    <value>Sin Utilizar</value>
+  </data>
+  <data name="EquipStatusReduced" xml:space="preserve">
+    <value>Reducido</value>
+  </data>
+  <data name="EquipStatusScrapped" xml:space="preserve">
+    <value>Desechado</value>
+  </data>
+  <data name="EquipStatusUp" xml:space="preserve">
+    <value>Arriba</value>
+  </data>
+  <data name="WOCancel" xml:space="preserve">
+    <value>Cancelado</value>
+  </data>
+  <data name="WOClosed" xml:space="preserve">
+    <value>Revisado</value>
+  </data>
+  <data name="WOComplete" xml:space="preserve">
+    <value>Completar</value>
+  </data>
+  <data name="WODiscrep" xml:space="preserve">
+    <value>Discrepancia</value>
+  </data>
+  <data name="WOHold" xml:space="preserve">
+    <value>Retener</value>
+  </data>
+  <data name="WOInvestigate" xml:space="preserve">
+    <value>Investigar</value>
+  </data>
+  <data name="WOOpen" xml:space="preserve">
+    <value>Abierto</value>
+  </data>
+  <data name="WOQuote" xml:space="preserve">
+    <value>Cotizar</value>
+  </data>
 </root>

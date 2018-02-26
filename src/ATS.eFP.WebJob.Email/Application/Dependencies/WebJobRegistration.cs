@@ -9,7 +9,6 @@ namespace ATS.eFP.WebJob.Email.Application.Dependencies
         {
             builder.RegisterType<ApiService>().InstancePerLifetimeScope();
             builder.RegisterType<CultureService>().InstancePerLifetimeScope();
-            builder.RegisterType<MailService>().InstancePerLifetimeScope();
             builder.RegisterType<Functions>().InstancePerLifetimeScope();
         }
     }

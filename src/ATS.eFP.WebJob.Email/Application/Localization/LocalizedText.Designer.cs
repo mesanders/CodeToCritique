@@ -187,6 +187,60 @@ namespace ATS.eFP.WebJob.Email.Application.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Decommissioned.
+        /// </summary>
+        public static string EquipStatusDecom {
+            get {
+                return ResourceManager.GetString("EquipStatusDecom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Down.
+        /// </summary>
+        public static string EquipStatusDown {
+            get {
+                return ResourceManager.GetString("EquipStatusDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Idle.
+        /// </summary>
+        public static string EquipStatusIdle {
+            get {
+                return ResourceManager.GetString("EquipStatusIdle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reduced.
+        /// </summary>
+        public static string EquipStatusReduced {
+            get {
+                return ResourceManager.GetString("EquipStatusReduced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scrapped.
+        /// </summary>
+        public static string EquipStatusScrapped {
+            get {
+                return ResourceManager.GetString("EquipStatusScrapped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Up.
+        /// </summary>
+        public static string EquipStatusUp {
+            get {
+                return ResourceManager.GetString("EquipStatusUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Escalated At:.
         /// </summary>
         public static string EscalatedAt {
@@ -399,6 +453,78 @@ namespace ATS.eFP.WebJob.Email.Application.Localization {
         public static string WO {
             get {
                 return ResourceManager.GetString("WO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canceled.
+        /// </summary>
+        public static string WOCancel {
+            get {
+                return ResourceManager.GetString("WOCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closed.
+        /// </summary>
+        public static string WOClosed {
+            get {
+                return ResourceManager.GetString("WOClosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Complete.
+        /// </summary>
+        public static string WOComplete {
+            get {
+                return ResourceManager.GetString("WOComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discrepancy.
+        /// </summary>
+        public static string WODiscrep {
+            get {
+                return ResourceManager.GetString("WODiscrep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hold.
+        /// </summary>
+        public static string WOHold {
+            get {
+                return ResourceManager.GetString("WOHold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Investigate.
+        /// </summary>
+        public static string WOInvestigate {
+            get {
+                return ResourceManager.GetString("WOInvestigate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        public static string WOOpen {
+            get {
+                return ResourceManager.GetString("WOOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quote.
+        /// </summary>
+        public static string WOQuote {
+            get {
+                return ResourceManager.GetString("WOQuote", resourceCulture);
             }
         }
         

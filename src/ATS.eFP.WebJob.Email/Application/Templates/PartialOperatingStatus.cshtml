@@ -10,7 +10,7 @@
                         @LocalizedText.OperationalStatus
                     </td>
                     <td class="col" width="420" style="padding: 10px 10px; color: #000000; font-family: Arial; font-size: 13px; line-height: 22px;">
-                        @if (Model.Product.OperatingStatusId == "DOWN")
+                        @if (Model.Product.OperatingStatusId == LocalizedText.EquipStatusDown)
                         {
                             <div style="color: #DB1D3A">@Model.Product.OperatingStatusId</div>
                         }

@@ -23,12 +23,10 @@ namespace ATS.eFP.WebJob.Email
     public class Functions
     {
         private CultureService _cultureService;
-        private MailService _mailService;
         private ApiService _apiService;
-        public Functions(CultureService cultureService, MailService mailService, ApiService apiService)
+        public Functions(CultureService cultureService, ApiService apiService)
         {
-            _cultureService = cultureService;
-            _mailService = mailService;
+            _cultureService = cultureService;;
             _apiService = apiService;
         }
 
@@ -71,10 +69,11 @@ namespace ATS.eFP.WebJob.Email
                             if (contact.Email != null)
                             {
                                 LogData(trace, $"Sending message to {contact.Email} regarding Workorder: {workorder.Id}", false);
-
-                                var mail = _mailService.WorkorderMail(workorder, product, contact.Email, templateKey, workorder.Status);
-                                _mailService.SmtpClient.SendAsync(mail, null);
-
+                                using(var mailService = new MailService())
+                                {
+                                    var mail = mailService.WorkorderMail(workorder, product, contact.Email, templateKey, workorder.Status);
+                                    mailService.SmtpClient.Send(mail);
+                                }
                                 LogData(trace, $"Sent message to {contact.Email} regarding Workorder: {workorder.Id}", false);
                             }
                         }
@@ -87,6 +86,7 @@ namespace ATS.eFP.WebJob.Email
             }
 
             LogData(trace, "Workorder Create Sending Finished", false);
+
         }
 
         public async Task OnWorkOrderUpdate([ServiceBusTrigger("efp-api-update_workorder-topic", "efp-api-woupdate-sub-send-email")]BrokeredMessage message,
@@ -134,10 +134,11 @@ namespace ATS.eFP.WebJob.Email
                                 if (contact.Email != null)
                                 {
                                     LogData(trace, $"Sending message to {contact.Email} regarding Workorder: {workorder.Id}", false);
-
-                                    var mail = _mailService.WorkorderMail(workorder, product, contact.Email, templateKey, workorder.Status);
-                                    _mailService.SmtpClient.SendAsync(mail, null);
-
+                                    using (MailService mailService = new MailService())
+                                    {
+                                        var mail = mailService.WorkorderMail(workorder, product, contact.Email, templateKey, workorder.Status);
+                                        mailService.SmtpClient.Send(mail);
+                                    }
                                     LogData(trace, $"Send message to {contact.Email} regarding Workorder: {workorder.Id}", false);
                                 }
                             }
@@ -157,6 +158,7 @@ namespace ATS.eFP.WebJob.Email
             LogData(trace, "Workorder Complete Sending Finished", false);
         }
 
+        
         public async Task OnControlCenterEscalation([ServiceBusTrigger("efp-api-escalation-topic", "efp-api-escalation-sub-send-notification")] BrokeredMessage message,
             TraceWriter trace)
         {
@@ -179,23 +181,29 @@ namespace ATS.eFP.WebJob.Email
 
                 if (!recepient.Contains("@"))
                 {
-                    _mailService.CreateTwilioClient();
+                    using (MailService mailService = new MailService())
+                    {
+                        mailService.CreateTwilioClient();
 
-                    var body = sublocation
-                        ? _mailService.SmsSublocation(workorder, product)
-                        : _mailService.SmsEquipment(workorder, product);
+                        var body = sublocation
+                            ? mailService.SmsSublocation(workorder, product)
+                            : mailService.SmsEquipment(workorder, product);
 
-                    var result = await MessageResource.CreateAsync(new PhoneNumber(recepient),
-                        from: new PhoneNumber("+13094200014"),
-                        body: body);
+                        var result = await MessageResource.CreateAsync(new PhoneNumber(recepient),
+                            from: new PhoneNumber("+13094200014"),
+                            body: body);
 
-                    LogData(trace, $"Sent sms to {result.To} for workorder: {workorder.Id} for escalation: {eventMonitor.Name}", false);
+                        LogData(trace, $"Sent sms to {result.To} for workorder: {workorder.Id} for escalation: {eventMonitor.Name}", false);
+                    }
                 }
                 else
                 {
                     var templateKey = sublocation ? "TemplateEscalationSublocation" : "TemplateEscalationEquipment";
-                    MailMessage mail = _mailService.EscalationMail(workorder, product, eventMonitor, timezoneId, recepient, templateKey);
-                    _mailService.SmtpClient.SendAsync(mail, null);
+                    using (MailService mailService = new MailService())
+                    {
+                        MailMessage mail = mailService.EscalationMail(workorder, product, eventMonitor, timezoneId, recepient, templateKey);
+                        mailService.SmtpClient.Send(mail);
+                    }
                     LogData(trace, $"Sent mail to {recepient} for workorder: {workorder.Id} for escalation: {eventMonitor.Name}", false);
                 }
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -17,7 +18,7 @@ using Twilio;
 
 namespace ATS.eFP.WebJob.Email.Services
 {
-    public class MailService
+    public class MailService : IDisposable
     {
         public SmtpClient SmtpClient;
 
@@ -78,6 +79,8 @@ namespace ATS.eFP.WebJob.Email.Services
 
         public MailMessage WorkorderMail(Workorder workorder, Product product, string recipient, string templateKey, string status)
         {
+            workorder.Status = LocalizeWorkorderStatus(workorder.Status);
+            product.OperatingStatusId = LocalizeEquipmentStatus(product.OperatingStatusId);
             var wrapper = new WorkorderNotificationWrapper
             {
                 Workorder = workorder,
@@ -116,6 +119,8 @@ namespace ATS.eFP.WebJob.Email.Services
         }
         public MailMessage EscalationMail(Workorder workorder, Product product, EventMonitor eventMonitor, TimeZones timeZoneId, string receipient, string templateKey)
         {
+            workorder.Status = LocalizeWorkorderStatus(workorder.Status);
+            product.OperatingStatusId = LocalizeEquipmentStatus(product.OperatingStatusId);
             var wrapper = new EscalationWrapper
             {
                 Workorder = workorder,
@@ -215,23 +220,65 @@ namespace ATS.eFP.WebJob.Email.Services
             switch (workorderTimeZone.InfoId)
             {
                 case "Central Standard Time":
-                    workorderTimeZone.InfoId = LocalizedText.CentralTime;
-                    break;
+                    return $"{userTime} {LocalizedText.CentralTime}";
 
                 case "Eastern Standard Time":
-                    workorderTimeZone.InfoId = LocalizedText.EasternTime;
-                    break;
+                    return $"{userTime} {LocalizedText.EasternTime}";
 
                 case "Pacific Standard Time":
-                    workorderTimeZone.InfoId = LocalizedText.PacificTime;
-                    break;
+                    return $"{userTime} {LocalizedText.PacificTime}";
 
                 case "Mountain Standard Time":
-                    workorderTimeZone.InfoId = LocalizedText.MountainTime;
-                    break;
+                    return $"{userTime} {LocalizedText.MountainTime}";
             }
 
             return $"{userTime} {workorderTimeZone.InfoId}";
+        }
+
+        private string LocalizeEquipmentStatus(string equipmentStatus)
+        {
+            switch (equipmentStatus)
+            {
+                case "DECOMMISSIONED":
+                    return LocalizedText.EquipStatusDecom;
+                case "DOWN":
+                    return LocalizedText.EquipStatusDown;
+                case "IDLE":
+                    return LocalizedText.EquipStatusIdle;
+                case "REDUCED":
+                    return LocalizedText.EquipStatusReduced;
+                case "SCRAPPED":
+                    return LocalizedText.EquipStatusScrapped;
+                case "UP":
+                    return LocalizedText.EquipStatusUp;
+            }
+
+            return equipmentStatus;
+        }
+
+        private string LocalizeWorkorderStatus(string workorderStatus)
+        {
+            switch (workorderStatus)
+            {
+                case "CANCELED":
+                    return LocalizedText.WOCancel;
+                case "CLOSED":
+                    return LocalizedText.WOClosed;
+                case "COMPLETE":
+                    return LocalizedText.WOComplete;
+                case "DISCREPANCY":
+                    return LocalizedText.WODiscrep;
+                case "HOLD":
+                    return LocalizedText.WOHold;
+                case "INVESTIGATE":
+                    return LocalizedText.WOInvestigate;
+                case "OPEN":
+                    return LocalizedText.WOOpen;
+                case "QUOTE":
+                    return LocalizedText.WOQuote;
+            }
+
+            return workorderStatus;
         }
 
         private string DetermineEscalationCompleted(Workorder workorder) => 
@@ -273,6 +320,11 @@ namespace ATS.eFP.WebJob.Email.Services
                     }
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            SmtpClient?.Dispose();
         }
     }
 }
