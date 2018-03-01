@@ -69,7 +69,7 @@ namespace ATS.eFP.WebJob.Email
                             if (contact.Email != null)
                             {
                                 LogData(trace, $"Sending message to {contact.Email} regarding Workorder: {workorder.Id}", false);
-                                using(var mailService = new MailService())
+                                using(var mailService = new MailService(_cultureService))
                                 {
                                     var mail = mailService.WorkorderMail(workorder, product, contact.Email, templateKey, workorder.Status);
                                     mailService.SmtpClient.Send(mail);
@@ -134,7 +134,7 @@ namespace ATS.eFP.WebJob.Email
                                 if (contact.Email != null)
                                 {
                                     LogData(trace, $"Sending message to {contact.Email} regarding Workorder: {workorder.Id}", false);
-                                    using (MailService mailService = new MailService())
+                                    using (MailService mailService = new MailService(_cultureService))
                                     {
                                         var mail = mailService.WorkorderMail(workorder, product, contact.Email, templateKey, workorder.Status);
                                         mailService.SmtpClient.Send(mail);
@@ -181,7 +181,7 @@ namespace ATS.eFP.WebJob.Email
 
                 if (!recepient.Contains("@"))
                 {
-                    using (MailService mailService = new MailService())
+                    using (MailService mailService = new MailService(_cultureService))
                     {
                         mailService.CreateTwilioClient();
 
@@ -199,7 +199,7 @@ namespace ATS.eFP.WebJob.Email
                 else
                 {
                     var templateKey = sublocation ? "TemplateEscalationSublocation" : "TemplateEscalationEquipment";
-                    using (MailService mailService = new MailService())
+                    using (MailService mailService = new MailService(_cultureService))
                     {
                         MailMessage mail = mailService.EscalationMail(workorder, product, eventMonitor, timezoneId, recepient, templateKey);
                         mailService.SmtpClient.Send(mail);

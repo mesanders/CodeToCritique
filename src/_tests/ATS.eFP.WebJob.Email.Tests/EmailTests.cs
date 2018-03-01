@@ -20,6 +20,7 @@ namespace ATS.eFP.WebJob.Email.Tests
     public class EmailTests
     {
         private MailService _mailService;
+        private CultureService _cultureService;
         private Workorder _workorder;
         private Product _equipment;
         private Product _sublocation;
@@ -28,7 +29,8 @@ namespace ATS.eFP.WebJob.Email.Tests
         {
             Settings.Initialize();
             TemplateConfiguration.Initialize();
-            _mailService = new MailService();
+            _cultureService = new CultureService();
+            _mailService = new MailService(_cultureService);
             _workorder = CreateWorkorderMock();
             _equipment = CreateEquipmentMock();
             _sublocation = CreateSublocationMock();
@@ -129,9 +131,7 @@ namespace ATS.eFP.WebJob.Email.Tests
         public void SendWorkorderEquipmentTemplate()
         {
             var mail = _mailService.WorkorderMail(_workorder, _equipment, "jboundy@advancedtech.com", "TemplateWorkorderEquipment", "OPEN");
-            var gmail = _mailService.WorkorderMail(_workorder, _equipment, "j.a.boundy@gmail.com", "TemplateWorkorderEquipment", "OPEN");
             _mailService.SmtpClient.Send(mail);
-            _mailService.SmtpClient.Send(gmail);
         }
 
         [Fact]

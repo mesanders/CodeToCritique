@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -21,9 +20,12 @@ namespace ATS.eFP.WebJob.Email.Services
     public class MailService : IDisposable
     {
         public SmtpClient SmtpClient;
+        private CultureService _cultureService;
 
-        public MailService()
+        public MailService(CultureService cultureService)
         {
+            _cultureService = cultureService;
+
             SmtpClient = new SmtpClient("smtp.sendgrid.net", 587)
             {
                 Credentials = new NetworkCredential
@@ -51,7 +53,7 @@ namespace ATS.eFP.WebJob.Email.Services
 
         public string SmsSublocation(Workorder workorder, Product product)
         {
-            var message = $"{DetermineEscalationCompleted(workorder)}-" +
+            var message = $"{_cultureService.DetermineEscalationCompleted(workorder)}-" +
                   $"{LocalizedText.WO}{workorder.Id}@{LocalizedText.Site}{workorder.Site.Name}-" +
                   $"{LocalizedText.Subloc}{product.Id ?? LocalizedText.NA }-" +
                   $"{LocalizedText.BldgLoc}{product.BuildingLocation ?? LocalizedText.NA}-" +
@@ -64,7 +66,7 @@ namespace ATS.eFP.WebJob.Email.Services
 
         public string SmsEquipment(Workorder workorder, Product product)
         {
-            var message = $"{DetermineEscalationCompleted(workorder)}-" +
+            var message = $"{_cultureService.DetermineEscalationCompleted(workorder)}-" +
                   $"{LocalizedText.WO}{workorder.Id}@{LocalizedText.Site}{workorder.Site.Name}-" +
                   $"{LocalizedText.AssetId}{product.AssetId}-" +
                   $"{LocalizedText.Subloc}{product.Id ?? LocalizedText.NA }-" +
@@ -79,8 +81,8 @@ namespace ATS.eFP.WebJob.Email.Services
 
         public MailMessage WorkorderMail(Workorder workorder, Product product, string recipient, string templateKey, string status)
         {
-            workorder.Status = LocalizeWorkorderStatus(workorder.Status);
-            product.OperatingStatusId = LocalizeEquipmentStatus(product.OperatingStatusId);
+            workorder.Status = _cultureService.LocalizeWorkorderStatus(workorder.Status);
+            product.OperatingStatusId = _cultureService.LocalizeEquipmentStatus(product.OperatingStatusId);
             var wrapper = new WorkorderNotificationWrapper
             {
                 Workorder = workorder,
@@ -119,19 +121,24 @@ namespace ATS.eFP.WebJob.Email.Services
         }
         public MailMessage EscalationMail(Workorder workorder, Product product, EventMonitor eventMonitor, TimeZones timeZoneId, string receipient, string templateKey)
         {
-            workorder.Status = LocalizeWorkorderStatus(workorder.Status);
-            product.OperatingStatusId = LocalizeEquipmentStatus(product.OperatingStatusId);
+            workorder.Status = _cultureService.LocalizeWorkorderStatus(workorder.Status);
+            product.OperatingStatusId = _cultureService.LocalizeEquipmentStatus(product.OperatingStatusId);
+            var woCreated = _cultureService.LocalTimeConversion(timeZoneId, (DateTime) workorder.Created);
+            var escalatedAt = _cultureService.LocalTimeConversion(timeZoneId, DateTime.Now.ToUniversalTime());
+            var localizedTimeZone = _cultureService.LocalizedTimeZone(timeZoneId);
+            var completion = _cultureService.DetermineEscalationCompleted(workorder);
+
             var wrapper = new EscalationWrapper
             {
                 Workorder = workorder,
                 Product = product,
                 EventMonitor = eventMonitor,
-                WorkorderCreated = LocalTimeFormat(timeZoneId, (DateTime)workorder.Created),
-                EscalatedAt = LocalTimeFormat(timeZoneId, DateTime.Now.ToUniversalTime()),
+                WorkorderCreated = $"{woCreated} {localizedTimeZone}",
+                EscalatedAt = $"{escalatedAt} {localizedTimeZone}",
                 AssignedTech = workorder.Tasks?.FirstOrDefault()?.AssignedPerson?.FullName,
                 TaskTemplateId = workorder.Tasks?.FirstOrDefault()?.TaskTemplateId,
-                Subject = $"{product.AssetId} @ {product.Site?.Name} {DetermineEscalationCompleted(workorder)}",
-                SubjectHeader = DetermineEscalationCompleted(workorder),
+                Subject = $"{product.AssetId} @ {product.Site?.Name} {completion}",
+                SubjectHeader = completion,
                 SubjectSub = product.Group?.Name == "SUBLOCATION" ? LocalizedText.NoEquip : $"{product.Id} @ {workorder.Site.Name}",
                 FooterButton = Settings.EmailConfig.FooterButton,
                 HeaderHeadset = Settings.EmailConfig.HeaderHeadset,
@@ -211,79 +218,6 @@ namespace ATS.eFP.WebJob.Email.Services
             }
             return notes;
         }
-
-        private string LocalTimeFormat(TimeZones workorderTimeZone, DateTime utcTime)
-        {
-            var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(workorderTimeZone.InfoId);
-            DateTime userTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, timeZoneInfo);
-
-            switch (workorderTimeZone.InfoId)
-            {
-                case "Central Standard Time":
-                    return $"{userTime} {LocalizedText.CentralTime}";
-
-                case "Eastern Standard Time":
-                    return $"{userTime} {LocalizedText.EasternTime}";
-
-                case "Pacific Standard Time":
-                    return $"{userTime} {LocalizedText.PacificTime}";
-
-                case "Mountain Standard Time":
-                    return $"{userTime} {LocalizedText.MountainTime}";
-            }
-
-            return $"{userTime} {workorderTimeZone.InfoId}";
-        }
-
-        private string LocalizeEquipmentStatus(string equipmentStatus)
-        {
-            switch (equipmentStatus)
-            {
-                case "DECOMMISSIONED":
-                    return LocalizedText.EquipStatusDecom;
-                case "DOWN":
-                    return LocalizedText.EquipStatusDown;
-                case "IDLE":
-                    return LocalizedText.EquipStatusIdle;
-                case "REDUCED":
-                    return LocalizedText.EquipStatusReduced;
-                case "SCRAPPED":
-                    return LocalizedText.EquipStatusScrapped;
-                case "UP":
-                    return LocalizedText.EquipStatusUp;
-            }
-
-            return equipmentStatus;
-        }
-
-        private string LocalizeWorkorderStatus(string workorderStatus)
-        {
-            switch (workorderStatus)
-            {
-                case "CANCELED":
-                    return LocalizedText.WOCancel;
-                case "CLOSED":
-                    return LocalizedText.WOClosed;
-                case "COMPLETE":
-                    return LocalizedText.WOComplete;
-                case "DISCREPANCY":
-                    return LocalizedText.WODiscrep;
-                case "HOLD":
-                    return LocalizedText.WOHold;
-                case "INVESTIGATE":
-                    return LocalizedText.WOInvestigate;
-                case "OPEN":
-                    return LocalizedText.WOOpen;
-                case "QUOTE":
-                    return LocalizedText.WOQuote;
-            }
-
-            return workorderStatus;
-        }
-
-        private string DetermineEscalationCompleted(Workorder workorder) => 
-            workorder.Status == "COMPLETE" ? LocalizedText.EscalationCompleted : LocalizedText.EscalationOpen;
-        
 
         private void SanitizeObject(object root)
         {
