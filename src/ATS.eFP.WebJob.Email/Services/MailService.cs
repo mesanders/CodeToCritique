@@ -53,6 +53,7 @@ namespace ATS.eFP.WebJob.Email.Services
 
         public string SmsSublocation(Workorder workorder, Product product)
         {
+            _cultureService.SetCulture(workorder.CustomerProblemDescription.ToLower(), workorder.Site.LocaleCode.ToLower());
             var message = $"{_cultureService.DetermineEscalationCompleted(workorder)}-" +
                   $"{LocalizedText.WO}{workorder.Id}@{LocalizedText.Site}{workorder.Site.Name}-" +
                   $"{LocalizedText.Subloc}{product.Id ?? LocalizedText.NA }-" +
@@ -66,6 +67,7 @@ namespace ATS.eFP.WebJob.Email.Services
 
         public string SmsEquipment(Workorder workorder, Product product)
         {
+            _cultureService.SetCulture(workorder.CustomerProblemDescription.ToLower(), workorder.Site.LocaleCode.ToLower());
             var message = $"{_cultureService.DetermineEscalationCompleted(workorder)}-" +
                   $"{LocalizedText.WO}{workorder.Id}@{LocalizedText.Site}{workorder.Site.Name}-" +
                   $"{LocalizedText.AssetId}{product.AssetId}-" +
