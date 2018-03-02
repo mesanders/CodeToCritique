@@ -60,6 +60,9 @@ namespace ATS.eFP.WebJob.Email.Services
 
                 case "Mountain Standard Time":
                     return LocalizedText.MountainTime;
+
+                case "Mountain Standard Time (Mexico)":
+                    return LocalizedText.MountainTime;
             }
 
             return workorderTimeZone.InfoId;
