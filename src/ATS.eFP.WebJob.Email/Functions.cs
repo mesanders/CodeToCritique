@@ -62,8 +62,6 @@ namespace ATS.eFP.WebJob.Email
                     {
                         var templateKey = product.Group.Name == "SUBLOCATION" ? "TemplateWorkorderSublocation" : "TemplateWorkorderEquipment";
 
-                        _cultureService.SetCulture(workorder.CustomerProblemDescription.ToLower(), workorder.Site.LocaleCode.ToLower());
-
                         foreach (var contact in workorder.Contacts)
                         {
                             if (contact.Email != null)
@@ -121,9 +119,6 @@ namespace ATS.eFP.WebJob.Email
                         {
                             var templateKey = product.Group.Name == "SUBLOCATION" ? "TemplateWorkorderSublocation" : "TemplateWorkorderEquipment";
 
-                            _cultureService.SetCulture(workorder.CustomerProblemDescription.ToLower(),
-                                workorder.Site.LocaleCode.ToLower());
-
                             if (taskData?.Notes.Count > 0)
                             {
                                 workorder.Tasks.FirstOrDefault().Notes = taskData.Notes;
@@ -175,8 +170,6 @@ namespace ATS.eFP.WebJob.Email
                 var workorder = await _apiService.WorkorderData(deserializedWorkorder.Id);
                 TimeZones timezoneId = await _apiService.TimeZoneData(workorder.Site.TimeZone);
                 Product product = await _apiService.ProductData(parsedProduct.Id);
-                _cultureService.SetCulture(workorder.CustomerProblemDescription, workorder.Site.LocaleCode.ToLower());
-
                 bool sublocation = product.Group.Name == "SUBLOCATION";
 
                 if (!recepient.Contains("@"))

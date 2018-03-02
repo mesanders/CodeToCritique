@@ -81,6 +81,7 @@ namespace ATS.eFP.WebJob.Email.Services
 
         public MailMessage WorkorderMail(Workorder workorder, Product product, string recipient, string templateKey, string status)
         {
+            _cultureService.SetCulture(workorder.CustomerProblemDescription.ToLower(), workorder.Site.LocaleCode.ToLower());
             workorder.Status = _cultureService.LocalizeWorkorderStatus(workorder.Status);
             product.OperatingStatusId = _cultureService.LocalizeEquipmentStatus(product.OperatingStatusId);
             var wrapper = new WorkorderNotificationWrapper
@@ -121,6 +122,7 @@ namespace ATS.eFP.WebJob.Email.Services
         }
         public MailMessage EscalationMail(Workorder workorder, Product product, EventMonitor eventMonitor, TimeZones timeZoneId, string receipient, string templateKey)
         {
+            _cultureService.SetCulture(workorder.CustomerProblemDescription.ToLower(), workorder.Site.LocaleCode.ToLower());
             workorder.Status = _cultureService.LocalizeWorkorderStatus(workorder.Status);
             product.OperatingStatusId = _cultureService.LocalizeEquipmentStatus(product.OperatingStatusId);
             var woCreated = _cultureService.LocalTimeConversion(timeZoneId, (DateTime) workorder.Created);
