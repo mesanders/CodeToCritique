@@ -241,16 +241,16 @@
     <value>Su orden de trabajo {0}, ha sido completada.</value>
   </data>
   <data name="CentralTime" xml:space="preserve">
-    <value>Horario Estandar del Centro</value>
+    <value>Horario Estándar del Centro</value>
   </data>
   <data name="EasternTime" xml:space="preserve">
     <value>Horario Estandar del Este</value>
   </data>
   <data name="PacificTime" xml:space="preserve">
-    <value>Horario Estandar del Pacífico</value>
+    <value>Horario Estándar del Pacífico</value>
   </data>
   <data name="MountainTime" xml:space="preserve">
-    <value>Horario Estandard de la Montaña</value>
+    <value>Horario Estándar de la Montaña</value>
   </data>
   <data name="BldgLoc" xml:space="preserve">
     <value>BldgLoc</value>

@@ -29,7 +29,7 @@ namespace ATS.eFP.WebJob.Email.Services
                 var languageIdentifier = ConfigurationLoader.Identifier.Identify(message);
                 var mostCertainLanguage = languageIdentifier.FirstOrDefault();
 
-                language = mostCertainLanguage.Item1.Iso639_3;
+                if (mostCertainLanguage != null) language = mostCertainLanguage.Item1.Iso639_3;
 
                 language = !language.Contains("es") ? "en-US" : "es-MX";
             }
@@ -50,17 +50,17 @@ namespace ATS.eFP.WebJob.Email.Services
             switch (workorderTimeZone.InfoId)
             {
                 case "Central Standard Time":
+                case "Central Standard Time (Mexico)":
                     return LocalizedText.CentralTime;
 
                 case "Eastern Standard Time":
                     return LocalizedText.EasternTime;
 
                 case "Pacific Standard Time":
+                case "Pacific Standard Time (Mexico)":
                     return LocalizedText.PacificTime;
 
                 case "Mountain Standard Time":
-                    return LocalizedText.MountainTime;
-
                 case "Mountain Standard Time (Mexico)":
                     return LocalizedText.MountainTime;
             }
