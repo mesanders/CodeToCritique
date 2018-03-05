@@ -40,7 +40,7 @@
       <HintPath>..\packages\ATS.eFP.API.Client.1.0.0.26\lib\net47\ATS.eFP.API.Client.dll</HintPath>
     </Reference>
     <Reference Include="ATS.eFP.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ATS.eFP.Entities.1.0.2.288\lib\netstandard1.2\ATS.eFP.Entities.dll</HintPath>
+      <HintPath>..\packages\ATS.eFP.Entities.1.0.2.290\lib\netstandard1.2\ATS.eFP.Entities.dll</HintPath>
     </Reference>
     <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>

@@ -40,7 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ATS.eFP.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ATS.eFP.Entities.1.0.2.286\lib\netstandard1.2\ATS.eFP.Entities.dll</HintPath>
+      <HintPath>..\..\packages\ATS.eFP.Entities.1.0.2.290\lib\netstandard1.2\ATS.eFP.Entities.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=5.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentAssertions.5.1.1\lib\net47\FluentAssertions.dll</HintPath>
