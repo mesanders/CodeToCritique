@@ -10,6 +10,7 @@ using ATS.eFP.WebJob.Email.Application;
 using ATS.eFP.WebJob.Email.Application.Configuration;
 using ATS.eFP.WebJob.Email.Application.Models;
 using ATS.eFP.WebJob.Email.Services;
+using FluentAssertions;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
@@ -166,7 +167,97 @@ namespace ATS.eFP.WebJob.Email.Tests
         }
 
         [Fact]
-        public void SendEsclationEquipmentSMSTemplate()
+        public void SendEscalationSublocationCstMexicoTemplate()
+        {
+            var timezone = new TimeZones
+            {
+                InfoId = "Central Standard Time (Mexico)"
+            };
+
+            _workorder.Site.LocaleCode = "ES-MX";
+
+            var mail = _mailService.EscalationMail(_workorder, _sublocation, _eventMonitor, timezone, "jmarisca@advancedtech.com", "TemplateEscalationSublocation");
+            mail.Body.Should().Contain("Horario Est&#225;ndar del Centro");
+            _mailService.SmtpClient.Send(mail);
+        }
+
+        [Fact]
+        public void SendEscalationSublocationPstMexicoTemplate()
+        {
+            var timezone = new TimeZones
+            {
+                InfoId = "Pacific Standard Time (Mexico)"
+            };
+
+            _workorder.Site.LocaleCode = "ES-MX";
+
+            var mail = _mailService.EscalationMail(_workorder, _sublocation, _eventMonitor, timezone, "jmarisca@advancedtech.com", "TemplateEscalationSublocation");
+            mail.Body.Should().Contain("Horario Est&#225;ndar del Pac&#237;fico");
+            _mailService.SmtpClient.Send(mail);
+        }
+
+        [Fact]
+        public void SendEscalationSublocationMstMexicoTemplate()
+        {
+            var timezone = new TimeZones
+            {
+                InfoId = "Mountain Standard Time (Mexico)"
+            };
+
+            _workorder.Site.LocaleCode = "ES-MX";
+
+            var mail = _mailService.EscalationMail(_workorder, _sublocation, _eventMonitor, timezone, "jmarisca@advancedtech.com", "TemplateEscalationSublocation");
+            mail.Body.Should().Contain("Horario Est&#225;ndar de la Monta&#241;a");
+            _mailService.SmtpClient.Send(mail);
+        }
+
+        [Fact]
+        public void SendEscalationSublocationCstUsaTemplate()
+        {
+            var timezone = new TimeZones
+            {
+                InfoId = "Central Standard Time"
+            };
+
+            _workorder.Site.LocaleCode = "EN-US";
+
+            var mail = _mailService.EscalationMail(_workorder, _sublocation, _eventMonitor, timezone, "jmarisca@advancedtech.com", "TemplateEscalationSublocation");
+            mail.Body.Should().Contain("Central Standard Time");
+            _mailService.SmtpClient.Send(mail);
+        }
+
+        [Fact]
+        public void SendEscalationSublocationPstUsaTemplate()
+        {
+            var timezone = new TimeZones
+            {
+                InfoId = "Pacific Standard Time"
+            };
+
+            _workorder.Site.LocaleCode = "EN-US";
+
+            var mail = _mailService.EscalationMail(_workorder, _sublocation, _eventMonitor, timezone, "jmarisca@advancedtech.com", "TemplateEscalationSublocation");
+            mail.Body.Should().Contain("Pacific Standard Time");
+            _mailService.SmtpClient.Send(mail);
+        }
+
+        [Fact]
+        public void SendEscalationSublocationMstUsaTemplate()
+        {
+            var timezone = new TimeZones
+            {
+                InfoId = "Mountain Standard Time"
+            };
+
+            _workorder.Site.LocaleCode = "EN-US";
+
+            var mail = _mailService.EscalationMail(_workorder, _sublocation, _eventMonitor, timezone, "jmarisca@advancedtech.com", "TemplateEscalationSublocation");
+            mail.Body.Should().Contain("Mountain Standard Time");
+            _mailService.SmtpClient.Send(mail);
+        }
+
+        [Fact]
+        public void SendEsclationEquipmentSmsTemplate()
         {
             TwilioClient.Init("AC1091607564f3e4cbef1215b9873768ef", "1ef98c704d0a1d8fd96e073dd486f938");
             var mail = _mailService.SmsEquipment(_workorder, _equipment);
